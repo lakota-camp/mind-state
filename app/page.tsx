@@ -1,6 +1,10 @@
+import { auth } from '@clerk/nextjs/server';
 import Link from 'next/link';
 
-export default function Home() {
+export default async function Home() {
+  const { userId } = auth();
+  let href = userId ? '/journal' : '/new-user';
+
   return (
     <div className="w-screen h-screen bg-black flex justify-center items-center text-white">
       <div className="w-full max-w-[600px] mx-auto">
@@ -9,7 +13,7 @@ export default function Home() {
           AI powered app to track your mood and improve your life.
         </p>
         <div>
-          <Link href="/journal">
+          <Link href={href}>
             <button className="bg-blue-700 text-blue-200 border border-white rounded-md text-xl p-3 hover:bg-black hover:text-blue-700 hover:border-blue-700">
               get started
             </button>
