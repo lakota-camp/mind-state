@@ -35,8 +35,8 @@ model JournalEntry {
   content String @db.Text
 
   anaylsis Analysis?
-
-  @@index([userId])
+  // Compound index
+  @@unique([userId, id])
 }
 
 model Analysis {
