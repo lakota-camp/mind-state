@@ -14,7 +14,7 @@ const DashboardLayout = ({ children }) => {
             <Link href="/journal">MindState</Link>
           </div>
           <SignedIn>
-            <div className="text-2xl text-white font-bold hover:underline hover:text-black hover:bg-white border hover:border-black bg-black p-2 rounded-md">
+            <div className="text-sm text-white font-bold hover:underline hover:text-black hover:bg-white border hover:border-black bg-black p-3 rounded-md">
               <SignOutButton redirectUrl="/" />
             </div>
           </SignedIn>
