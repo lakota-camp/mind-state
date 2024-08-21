@@ -1,3 +1,4 @@
+import { analyze } from '@/utils/ai';
 import { getUserByClerkId } from '@/utils/auth';
 import { prisma } from '@/utils/db';
 import { revalidatePath } from 'next/cache';
@@ -12,7 +13,29 @@ export const POST = async () => {
     // Create entry
     data: {
       userId: user.id,
-      content: 'Write about your day!',
+      content: `Write about your day!`,
+    },
+  });
+
+  // Analysis API call
+  const analysis = await analyze(entry.content);
+
+  // Error handling to check if analysis data is defined
+  if (!analysis) {
+    throw new Error(
+      'Analysis is undefined. Please check the analyze function.'
+    );
+  }
+
+  // Safe analysis data to db
+  await prisma.analysis.create({
+    data: {
+      entryId: entry.id,
+      mood: analysis?.mood,
+      summary: analysis?.summary,
+      color: analysis?.color,
+      negative: analysis?.negative,
+      subject: analysis?.subject,
     },
   });
 

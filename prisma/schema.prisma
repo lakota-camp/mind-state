@@ -34,7 +34,7 @@ model JournalEntry {
 
   content String @db.Text
 
-  anaylsis Analysis?
+  analysis  Analysis?
   // Compound index
   @@unique([userId, id])
 }
@@ -51,6 +51,7 @@ model Analysis {
   summary  String  @db.Text
   color    String
   negative Boolean
+  subject  String 
 
   @@unique([entryId])
 }

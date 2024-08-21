@@ -4,7 +4,6 @@ import { prisma } from '../../../utils/db';
 import NewEntryCard from '../../../components/NewEntryCard';
 import EntryCard from '../../../components/EntryCard';
 import Link from 'next/link';
-import { analyze } from '@/utils/ai';
 
 // Components
 
@@ -19,13 +18,11 @@ const getEntries = async () => {
     },
   });
 
-  const aiMsg = await analyze('Today was amazing!');
-
-  return { entries, aiMsg };
+  return entries;
 };
 
 const JournalPage = async () => {
-  const { entries, aiMsg } = await getEntries();
+  const entries = await getEntries();
 
   return (
     <div className="p-10 bg-zinc-400/10 h-full">
@@ -38,7 +35,6 @@ const JournalPage = async () => {
           </Link>
         ))}
       </div>
-      <div className="p-10">{aiMsg}</div>
     </div>
   );
 };
