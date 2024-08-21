@@ -30,12 +30,14 @@ export const POST = async () => {
   // Safe analysis data to db
   await prisma.analysis.create({
     data: {
+      userId: user.id,
       entryId: entry.id,
       mood: analysis?.mood,
       summary: analysis?.summary,
       color: analysis?.color,
       negative: analysis?.negative,
       subject: analysis?.subject,
+      sentimentScore: analysis?.sentimentScore,
     },
   });
 

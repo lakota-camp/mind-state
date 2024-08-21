@@ -14,13 +14,14 @@ const Editor = ({ entry }) => {
   // Analysis state
   const [analysis, setAnalysis] = useState(entry.analysis);
 
-  const { mood, summary, color, subject, negative } = analysis;
+  const { mood, summary, color, subject, negative, sentimentScore } = analysis;
 
   const analysisData = [
     { name: 'Summary', value: summary },
     { name: 'Subject', value: subject },
     { name: 'Mood', value: mood },
     { name: 'Negative', value: negative ? 'True' : 'False' },
+    { name: 'Sentiment Score', value: sentimentScore },
   ];
 
   // Hook to autosave edited text
@@ -30,8 +31,10 @@ const Editor = ({ entry }) => {
     onSave: async (_value) => {
       setIsLoading(true);
       const data = await updateEntry(entry.id, _value);
+
       // Update analysis state
       setAnalysis(data.analysis);
+
       setIsLoading(false);
     },
   });

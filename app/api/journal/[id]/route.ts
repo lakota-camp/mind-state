@@ -30,6 +30,7 @@ export const PATCH = async (request, { params }) => {
     },
     // If not found create a new analysis
     create: {
+      userId: user.id,
       entryId: updatedEntry.id,
       ...analysis,
     },
