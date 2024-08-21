@@ -2,6 +2,10 @@ import { OpenAI } from '@langchain/openai';
 import { StructuredOutputParser } from 'langchain/output_parsers';
 import { z } from 'zod';
 import { PromptTemplate } from '@langchain/core/prompts';
+import { Document } from 'langchain/document';
+import { loadQARefineChain } from 'langchain/chains';
+import { OpenAIEmbeddings } from '@langchain/openai';
+import { MemoryVectorStore } from 'langchain/vectorstores/memory';
 
 // * FIXME: Do not load AI analysis on initial journal entry creation. * //
 
@@ -48,7 +52,7 @@ export const analyze = async (content: string) => {
 
   const model = new OpenAI({
     temperature: 0,
-    model: 'gpt-3.5-turbo',
+    model: 'gpt-4o',
     apiKey: process.env.OPENAI_API_KEY,
   });
 
@@ -59,4 +63,37 @@ export const analyze = async (content: string) => {
   } catch (e) {
     console.log(e);
   }
+};
+
+// Future update -> store in vector DB
+// Function to ask questions on journal entry
+export const qa = async (question, entries) => {
+  // Convert entries into docs
+  const docs = entries.map((entry) => {
+    return new Document({
+      pageContent: entry.content,
+      metadata: { id: entry.id, createdAt: entry.createdAt },
+    });
+  });
+
+  const model = new OpenAI({
+    temperature: 0,
+    modelName: 'gpt-3.5-turbo',
+    apiKey: process.env.OPENAI_API_KEY,
+  });
+
+  const chain = loadQARefineChain(model);
+  // Create embedding from OpenAI API
+  const embeddings = new OpenAIEmbeddings();
+  // Create vector store
+  const store = await MemoryVectorStore.fromDocuments(docs, embeddings);
+  // Retrieve relevant docs -> based off questions, these are the entries that will be used to answer question.
+  const relevantDocs = await store.similaritySearch(question);
+
+  const res = await chain.invoke({
+    input_documents: relevantDocs,
+    question,
+  });
+
+  return res.output_text;
 };
