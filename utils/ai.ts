@@ -3,6 +3,8 @@ import { StructuredOutputParser } from 'langchain/output_parsers';
 import { z } from 'zod';
 import { PromptTemplate } from '@langchain/core/prompts';
 
+// * FIXME: Do not load AI analysis on initial journal entry creation. * //
+
 // Prompt template
 const parser = StructuredOutputParser.fromZodSchema(
   z.object({
