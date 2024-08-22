@@ -3,6 +3,15 @@
 import { updateEntry } from '@/utils/api';
 import { useState } from 'react';
 import { useAutosave } from 'react-autosave';
+import { Textarea } from './ui/textarea';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 
 const Editor = ({ entry }) => {
   // Set init value of state to the journal entry content
@@ -45,30 +54,41 @@ const Editor = ({ entry }) => {
       <div className="col-span-2">
         {isLoading && <div>loading...</div>}
         {/* Text area for journal editing */}
-        <textarea
-          className="w-full h-full p-8 text-xl outline-none"
+        <Textarea
+          placeholder="Type your message here."
+          className="h-3/4 p-8 outline-none"
           value={value}
           onChange={(e) => setValue(e.target.value)}
-        ></textarea>
+        />
       </div>
-      <div className="border-l border-black/10">
-        <div className="px-6 py-10" style={{ backgroundColor: color }}>
-          <h2 className="text-2xl">Analysis</h2>
-        </div>
-        <div>
+      <Card>
+        <CardHeader>
+          <CardTitle
+            style={{ backgroundColor: color }}
+            className="py-6 text-center rounded-md"
+          >
+            <div className="bg-white mx-56 p-4 rounded-md">Analysis</div>
+          </CardTitle>
+          <CardDescription className="text-center">
+            Card Description
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
           <ul>
             {analysisData.map((item) => (
               <li
                 key={item.name}
-                className="flex items-center justify-between px-4 py-4 border-b border-t border-black/10"
+                className="grid grid-cols-2 gap-4 px-4 py-4 border-b border-black/10"
               >
-                <span className="text-lg font-semibold">{item.name}</span>
+                <span className="font-semibold border-r border-black/10">
+                  {item.name}
+                </span>
                 <span>{item.value}</span>
               </li>
             ))}
           </ul>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };

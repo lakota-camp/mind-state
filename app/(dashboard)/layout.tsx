@@ -1,40 +1,73 @@
-import { SignedIn, SignOutButton, UserButton } from '@clerk/nextjs';
 import Link from 'next/link';
-import React from 'react';
+import { SignedIn, SignOutButton, UserButton } from '@clerk/nextjs';
+import { LuBrainCircuit } from 'react-icons/lu';
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+  TooltipProvider,
+} from '@/components/ui/tooltip';
+import { Home, LineChart, Package, Settings, BookOpen } from 'lucide-react';
 
 const links = [
-  { href: '/', label: 'Home' },
-  { href: '/journal', label: 'Journal' },
-  { href: '/history', label: 'History' },
+  { href: '/', label: 'Home', icon: Home },
+  { href: '/journal', label: 'Journal', icon: BookOpen },
+  { href: '/history', label: 'History', icon: LineChart },
 ];
 
 const DashboardLayout = ({ children }) => {
   return (
-    <div className="h-screen w-screen relative ">
-      <aside className="absolute w-[200px] top-0 left-0 h-full border-r border-black/10 text-center py-4 text-xl">
-        <ul>
-          {links.map((link) => (
-            <li key={link.href} className="px-2 py-6 text-xl">
-              <Link href={link.href}>{link.label}</Link>
-            </li>
-          ))}
-        </ul>
-      </aside>
-      <div className="ml-[200px] h-full">
-        <header className="h-[60px] border-b border-black/10 w-full px-12 py-12 flex items-center justify-between">
-          <div className="text-2xl font-bold hover:underline hover:text-black/60">
-            <Link href="/journal">MindState</Link>
-          </div>
-          <SignedIn>
-            <div className="text-sm text-white font-bold hover:underline hover:text-black hover:bg-white border hover:border-black bg-black p-3 rounded-md">
-              <SignOutButton redirectUrl="/" />
+    <TooltipProvider>
+      <div className="flex min-h-screen w-full">
+        {/* Sidebar */}
+        <aside className="fixed inset-y-0 left-0 z-10 w-16 flex flex-col items-center border-r bg-background py-4">
+          <nav className="flex flex-col items-center gap-4 mt-12">
+            {links.map((link) => (
+              <Tooltip key={link.href}>
+                <TooltipTrigger asChild>
+                  <Link
+                    href={link.href}
+                    className="flex h-10 w-10 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    <link.icon className="h-5 w-5" />
+                    <span className="sr-only">{link.label}</span>
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent side="right">
+                  <div className="p-4 bg-black text-white rounded-md text-md font-semibold">
+                    {link.label}
+                  </div>
+                </TooltipContent>
+              </Tooltip>
+            ))}
+          </nav>
+        </aside>
+
+        {/* Main Content */}
+        <div className="ml-16 flex-1">
+          <header className="sticky top-0 z-20 flex h-16 items-center justify-between bg-background px-6 ">
+            <div className="flex items-center text-2xl font-bold">
+              <Link
+                href="/journal"
+                className="flex items-center hover:underline"
+              >
+                <LuBrainCircuit className="mr-2" />
+                MindState
+              </Link>
             </div>
-          </SignedIn>
-          {/* <UserButton /> */}
-        </header>
-        <div className="h-[calc(100vh-60px)]">{children}</div>
+            <SignedIn>
+              <div className="text-sm text-white font-bold hover:underline hover:text-black hover:bg-white border hover:border-black bg-black p-3 rounded-md">
+                <SignOutButton redirectUrl="/" />
+              </div>
+            </SignedIn>
+            {/* Uncomment to add user button */}
+            {/* <UserButton /> */}
+          </header>
+
+          <main className="h-[calc(100vh-64px)] p-6">{children}</main>
+        </div>
       </div>
-    </div>
+    </TooltipProvider>
   );
 };
 
