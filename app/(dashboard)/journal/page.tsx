@@ -21,12 +21,25 @@ const getEntries = async () => {
   return entries;
 };
 
+const getAnalysis = async () => {
+  const user = await getUserByClerkId();
+  const analysis = await prisma.analysis.findMany({
+    where: {
+      userId: user.id,
+    },
+  });
+  return analysis;
+};
+
 const JournalPage = async () => {
   const entries = await getEntries();
+  const analysis = await getAnalysis();
 
   return (
-    <div className="p-10 bg-zinc-400/10 h-full">
-      <h2 className="text-3xl mb-8 text-center md:text-left">Journal</h2>
+    <div className="h-full">
+      <h2 className="text-2xl mb-8 text-center md:text-left">
+        Journal Entries
+      </h2>
       <div className="my-5">
         <Question />
       </div>
@@ -34,7 +47,7 @@ const JournalPage = async () => {
         <NewEntryCard />
         {entries.map((entry) => (
           <Link href={`/journal/${entry.id}`} key={entry.id}>
-            <EntryCard key={entry.id} entry={entry} />
+            <EntryCard key={entry.id} entry={entry} analysis={analysis} />
           </Link>
         ))}
       </div>

@@ -18,7 +18,7 @@ const links = [
 const DashboardLayout = ({ children }) => {
   return (
     <TooltipProvider>
-      <div className="flex min-h-screen w-full">
+      <div className="flex min-h-screen w-full bg-zinc-50">
         {/* Sidebar */}
         <aside className="fixed inset-y-0 left-0 z-10 w-16 flex flex-col items-center border-r bg-background py-4">
           <nav className="flex flex-col items-center gap-4 mt-12">
@@ -29,12 +29,12 @@ const DashboardLayout = ({ children }) => {
                     href={link.href}
                     className="flex h-10 w-10 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground"
                   >
-                    <link.icon className="h-5 w-5" />
+                    <link.icon className="h-5 w-5 hover:text-black/50" />
                     <span className="sr-only">{link.label}</span>
                   </Link>
                 </TooltipTrigger>
                 <TooltipContent side="right">
-                  <div className="p-4 bg-black text-white rounded-md text-md font-semibold">
+                  <div className="p-4 bg-zinc-600 text-white rounded-md text-md font-semibold">
                     {link.label}
                   </div>
                 </TooltipContent>
@@ -45,7 +45,7 @@ const DashboardLayout = ({ children }) => {
 
         {/* Main Content */}
         <div className="ml-16 flex-1">
-          <header className="sticky top-0 z-20 flex h-16 items-center justify-between bg-background px-6 ">
+          <header className="sticky top-0 z-20 flex h-16 items-center justify-between px-6 border-b bg-white">
             <div className="flex items-center text-2xl font-bold">
               <Link
                 href="/journal"

@@ -59,8 +59,8 @@ const HistoryChart = ({ data }) => {
             new Date(tick).toLocaleDateString('en-us', {
               month: 'short',
               day: 'numeric',
-              hour: 'numeric',
-              minute: 'numeric',
+              // hour: 'numeric',
+              // minute: 'numeric',
             })
           }
         />

@@ -2,7 +2,10 @@
 
 import { askQuestion } from '@/utils/api';
 import { useState } from 'react';
-
+import { Input } from '@/components/ui/input';
+import { Button } from './ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Cross1Icon } from '@radix-ui/react-icons';
 const Question = () => {
   const [value, setValue] = useState('');
   const [loading, setLoading] = useState(false);
@@ -23,33 +26,48 @@ const Question = () => {
     setLoading(false);
   };
 
+  const handleDelete = () => {
+    setResponse(false);
+  };
   // Refine vector search to include context of all entries some how. Search results only include a small context window.
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <input
-          disabled={loading}
-          onChange={onChange}
-          value={value}
-          type="text"
-          placeholder="Ask a question"
-          className="border border-black/20 px-4 py-2 text-lg rounded-lg"
-        ></input>
-        <button
-          disabled={loading}
-          type="submit"
-          className="bg-blue-400 px-6 py-2 rounded-lg text-lg m-5"
-        >
-          Ask
-        </button>
-      </form>
       <div>
-        {loading && <div>loading...</div>}
-        {response && (
-          <div className="py-6 px-6 my-4 bg-black/5 border rounded-md shadow text-lg">
-            {response}
+        <form onSubmit={handleSubmit}>
+          <div className="flex flex-row justify-between">
+            <div className="flex flex-row w-full">
+              <Input
+                disabled={loading}
+                onChange={onChange}
+                value={value}
+                type="text"
+                placeholder="Ask a question"
+                className="w-1/4"
+              />
+              <Button variant="outline" disabled={loading} type="submit">
+                Ask
+              </Button>
+            </div>
           </div>
-        )}
+        </form>
+        <div>
+          {/* Loading state skeleton */}
+          {loading ? (
+            <Skeleton className="rounded-md py-6 px-6 my-4" />
+          ) : (
+            // Response
+            response && (
+              <div className="py-6 px-6 my-4 bg-zinc-50 border rounded-md shadow text-lg flex justify-between">
+                <div className="px-8 p-10">{response}</div>
+                <div className="flex justify-end">
+                  <Button onClick={handleDelete} variant="outline">
+                    <Cross1Icon />
+                  </Button>
+                </div>
+              </div>
+            )
+          )}
+        </div>
       </div>
     </div>
   );

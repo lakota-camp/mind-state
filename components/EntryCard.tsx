@@ -1,20 +1,61 @@
+'use client';
+
 import formateDateTime from '@/utils/formatDate';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from '@/components/ui/hover-card';
+import { Button } from './ui/button';
 
 // ? Add a AI generated summary to each entry card
 // !FIXME: Add a delete button for each entry card
 
-const EntryCard = ({ entry }) => {
-  const { createdAt } = entry;
+const EntryCard = ({ entry, analysis }) => {
+  const { createdAt, content } = entry;
+  console.log(analysis);
+
+  // Map analysis data to entry
+  const correspondingAnalysis = analysis.find((a) => a.entryId === entry.id);
 
   // Create and format date for entry
   const dateTime = formateDateTime(new Date(createdAt));
 
   return (
-    <div className="divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow hover:bg-black/5">
-      <div className="px-4 py-5">{dateTime}</div>
-      <div className="px-4 py-5">Summary</div>
-      <div className="px-4 py-4">Mood</div>
-    </div>
+    <>
+      <Card className={`h-full hover:bg-zinc-50`}>
+        <CardHeader>
+          <CardTitle>{dateTime}</CardTitle>
+          {/* <CardDescription>Card Description</CardDescription> */}
+        </CardHeader>
+        <CardContent>
+          <div>
+            <span className="font-semibold">Summary: </span>
+            {correspondingAnalysis?.summary}
+          </div>
+          <div className="mt-5">
+            <span className="font-semibold">Mood: </span>
+            {correspondingAnalysis?.mood}
+          </div>
+          <div className="mt-5">
+            <HoverCard>
+              <HoverCardTrigger>
+                <Button variant="link">Full Entry</Button>
+              </HoverCardTrigger>
+              <HoverCardContent>{content}</HoverCardContent>
+            </HoverCard>
+          </div>
+        </CardContent>
+      </Card>
+    </>
   );
 };
 
