@@ -1,4 +1,3 @@
-import React from 'react';
 import { getUserByClerkId } from '../../../utils/auth';
 import { prisma } from '../../../utils/db';
 import NewEntryCard from '../../../components/NewEntryCard';
