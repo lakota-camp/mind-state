@@ -18,7 +18,7 @@ const links = [
 const DashboardLayout = ({ children }) => {
   return (
     <TooltipProvider>
-      <div className="flex min-h-screen w-full bg-zinc-50">
+      <div className="flex min-h-screen w-full">
         {/* Sidebar */}
         <aside className="fixed inset-y-0 left-0 z-10 w-16 flex flex-col items-center border-r bg-background py-4">
           <nav className="flex flex-col items-center gap-4 mt-12">
@@ -55,13 +55,13 @@ const DashboardLayout = ({ children }) => {
                 MindState
               </Link>
             </div>
-            <SignedIn>
+            {/* <SignedIn>
               <div className="text-sm text-white font-bold hover:underline hover:text-black hover:bg-white border hover:border-black bg-black p-3 rounded-md">
                 <SignOutButton redirectUrl="/" />
               </div>
-            </SignedIn>
+            </SignedIn> */}
             {/* Uncomment to add user button */}
-            {/* <UserButton /> */}
+            <UserButton />
           </header>
 
           <main className="h-[calc(100vh-64px)] p-6">{children}</main>

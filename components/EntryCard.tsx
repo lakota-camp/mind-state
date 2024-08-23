@@ -19,7 +19,6 @@ import { Button } from './ui/button';
 
 const EntryCard = ({ entry, analysis }) => {
   const { createdAt, content } = entry;
-  console.log(analysis);
 
   // Map analysis data to entry
   const correspondingAnalysis = analysis.find((a) => a.entryId === entry.id);

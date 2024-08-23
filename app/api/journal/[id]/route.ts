@@ -39,3 +39,34 @@ export const PATCH = async (request, { params }) => {
   // Return data with the spread of updatedEntry and the updated analysis data
   return NextResponse.json({ data: { ...updatedEntry, analysis: updated } });
 };
+
+export const DELETE = async (request, { params }) => {
+  try {
+    const user = await getUserByClerkId();
+
+    console.log('User ID:', user.id);
+    console.log('Entry ID:', params.id);
+
+    const deleteEntry = await prisma.journalEntry.delete({
+      where: {
+        userId_id: {
+          userId: user.id,
+          id: params.id,
+        },
+      },
+    });
+
+    return new Response(
+      JSON.stringify({ message: 'Entry deleted successfully' }),
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error('Error deleting entry:', error);
+    return (
+      new Response(JSON.stringify({ error: 'Failed to delete the entry.' })),
+      {
+        status: 500,
+      }
+    );
+  }
+};

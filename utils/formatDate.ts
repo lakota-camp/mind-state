@@ -1,4 +1,4 @@
-export default function formateDateTime(date) {
+export default function formateDateTime(date: any) {
   const optionsDate = {
     weekday: 'long',
     year: 'numeric',
