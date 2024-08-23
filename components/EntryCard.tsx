@@ -1,5 +1,3 @@
-'use client';
-
 import formateDateTime from '@/utils/formatDate';
 import {
   Card,

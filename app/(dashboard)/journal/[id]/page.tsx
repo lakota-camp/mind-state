@@ -2,7 +2,7 @@ import Editor from '@/components/Editor';
 import { getUserByClerkId } from '@/utils/auth';
 import { prisma } from '@/utils/db';
 
-const getEntry = async (id) => {
+const getEntry = async (id: any) => {
   const user = await getUserByClerkId();
   const entry = await prisma.journalEntry.findUnique({
     where: {
@@ -21,7 +21,7 @@ const getEntry = async (id) => {
 };
 
 // FIXME: fix issue with no render on null values of analysis data.
-const EntryPage = async ({ params }) => {
+const EntryPage = async ({ params }: { params: any }) => {
   const entry = await getEntry(params.id);
 
   return (
