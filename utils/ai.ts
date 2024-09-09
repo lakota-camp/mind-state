@@ -83,7 +83,7 @@ export const qa = async (question, entries) => {
 
   const model = new OpenAI({
     temperature: 0,
-    modelName: 'gpt-3.5-turbo',
+    modelName: 'gpt-4o',
     apiKey: process.env.OPENAI_API_KEY,
   });
 

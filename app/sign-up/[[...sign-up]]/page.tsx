@@ -2,7 +2,9 @@ import { SignUp } from '@clerk/nextjs';
 
 const SignUpPage = () => {
   return (
-    <SignUp forceRedirectUrl="/new-user" fallbackRedirectUrl="/new-user" />
+    <div className="flex justify-center items-center h-screen">
+      <SignUp forceRedirectUrl="/new-user" fallbackRedirectUrl="/new-user" />
+    </div>
   );
 };
 
